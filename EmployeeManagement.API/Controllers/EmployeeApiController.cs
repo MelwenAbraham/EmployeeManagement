@@ -1,5 +1,7 @@
 ﻿using EmployeeManagement.API.Models;
 using EmployeeManagement.Application.Contracts;
+using EmployeeManagement.Application.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -24,17 +26,8 @@ namespace EmployeeManagement.API.Controllers
         {
             try
             {
-                /// get employee by calling GetEmployeeById() in IEmployeeService and store it in a variable and Map that variable to EmployeeDetailedViewModel. 
-                var employeeDetailedViewModel = new EmployeeDetailedViewModel
-                {
-                    Id = 1,
-                    Name = "Dummy Name",
-                    Department = "Dummy Department",
-                    Age = 30,
-                    Address = "Dummy Address"
-                };
-
-                return Ok(employeeDetailedViewModel);
+                var employeeById = _employeeService.GetEmployeeById(employeeId);
+                return Ok(MapToemployeeById(employeeById));
             }
             catch (Exception)
             {
@@ -42,27 +35,102 @@ namespace EmployeeManagement.API.Controllers
             }
         }
 
+        private object MapToemployeeById(Application.Models.EmployeeDto employeeById)
+        {
+            var employee = new EmployeeDetailedViewModel()
+            {
+                Id = employeeById.Id,
+                Name = employeeById.Name,
+                Department = employeeById.Department,
+                Age = employeeById.Age,
+                Address = employeeById.Address
+            };
+            return employeeById;
+        }
+
         [HttpGet]
         [Route("get-all")]
         public IActionResult GetEmployees()
         {
-            /// get employees by calling GetEmployees() in IEmployeeService and store it in a variable and Map that variable to EmployeeDetailedViewModel. 
-            /// 
-            var listOfEmployeeViewModel = new List<EmployeeDetailedViewModel>()
+            try
             {
-                new EmployeeDetailedViewModel
-                {
-
-                    Id = 1,
-                    Name = "Dummy Name",
-                    Department = "Dummy Department",
-                    Age = 30,
-                    Address = "Dummy Address"
-                }
-            };
-            return Ok(listOfEmployeeViewModel);
+                var listOfEmployeeViewModel = _employeeService.GetEmployees();
+                return Ok(MapToAllEmployee(listOfEmployeeViewModel));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        //Create Employee Insert, Update and Delete Endpoint here
+        private object MapToAllEmployee(IEnumerable<Application.Models.EmployeeDto> listOfEmployeeViewModel)
+        {
+            var listOfAllEmployee = new List<EmployeeDetailedViewModel>();
+            foreach (var item in listOfEmployeeViewModel)
+            {
+                var employeeViewModel = new EmployeeDetailedViewModel()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Department = item.Department,
+                    Age = item.Age,
+                    Address = item.Address
+                };
+                listOfAllEmployee.Add(employeeViewModel);
+            }
+            return listOfAllEmployee;
+        }
+
+        [HttpPost]
+        [Route("insertemployees")]
+        public IActionResult InsertEmployee([FromBody] EmployeeDetailedViewModel newEmployee)
+        {
+            try
+            {
+                var employeeDetailed = new EmployeeDto()
+                {
+                    Id = newEmployee.Id,
+                    Name = newEmployee.Name,
+                    Department = newEmployee.Department,
+                    Age = newEmployee.Age,
+                    Address = newEmployee.Address
+                };
+                var employeeDetailedViewModel = _employeeService.InsertEmployee(employeeDetailed);
+                return Ok(employeeDetailedViewModel);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        [HttpPut]
+        [Route("updateemployees")]
+        public IActionResult UpdateEmployee([FromBody] EmployeeDetailedViewModel newEmployee)
+        {
+            try
+            {
+                var employeeDetailed = new EmployeeDto()
+                {
+                    Id = newEmployee.Id,
+                    Name = newEmployee.Name,
+                    Department = newEmployee.Department,
+                    Age = newEmployee.Age,
+                    Address = newEmployee.Address
+                };
+                var employeeDetailedViewModel = _employeeService.UpdateEmployee(employeeDetailed);
+                return Ok(employeeDetailedViewModel);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        [HttpDelete]
+        [Route("deleteEmployee/{ID}")]
+        public IActionResult DeleteEmployee(int ID)
+        {
+            var employeeDetailedViewModel = _employeeService.DeleteEmployee(ID);
+            return Ok(employeeDetailedViewModel);
+        }
     }
 }

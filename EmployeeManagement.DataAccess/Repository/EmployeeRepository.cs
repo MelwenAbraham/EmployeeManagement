@@ -34,9 +34,7 @@ namespace EmployeeManagement.DataAccess.Repository
                     {
                         Id = (int)sqlDataReader["ID"],
                         Name = (string)sqlDataReader["NAME"],
-                        Department = (string)sqlDataReader["DEPARTMENT"],
-                        Age = (int)sqlDataReader["AGE"],
-                        Address = (string)sqlDataReader["ADDRESS"],
+                        Department = (string)sqlDataReader["DEPARTMENT"]
                     });
                 }
                 return listOfEmployee;
@@ -154,6 +152,5 @@ namespace EmployeeManagement.DataAccess.Repository
                 _sqlConnection.Close();
             }
         }
-        //Create Methods For Table insert, update and Delete Here
     }
 }
