@@ -27,15 +27,40 @@ namespace EmployeeManagement.UI.Controllers.InternalAPI
             try
             {
                 var employee = _employeeApiClient.GetEmployeeById(employeeId);
-
                 return Ok(employee);
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
-
+        }
+        [HttpDelete]
+        [Route("deleteemployees/{employeeId}")]
+        public IActionResult DeleteEmployee([FromRoute]int employeeId)
+        {
+            try
+            {
+                var deleted = _employeeApiClient.DeleteEmployee(employeeId);
+                return Ok(deleted);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        [HttpPut]
+        [Route("insertemployees}")]
+        public IActionResult InsertEmployee([FromBody]EmployeeDetailedViewModel employee)
+        {
+            try
+            {
+                var insertedEmployee = _employeeApiClient.InsertEmployee(employee);
+                return Ok(insertedEmployee);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }

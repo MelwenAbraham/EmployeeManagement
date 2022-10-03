@@ -86,11 +86,11 @@ namespace EmployeeManagement.DataAccess.Repository
             {
                 _sqlConnection.Open();
 
-                var sqlCommand = new SqlCommand(cmdText: "exec InsertEmployee @Name,@Department,@Age,@Address");
-                sqlCommand.Parameters.AddWithValue("Name", employee.Name);
-                sqlCommand.Parameters.AddWithValue("Department", employee.Department);
-                sqlCommand.Parameters.AddWithValue("Age", employee.Age);
-                sqlCommand.Parameters.AddWithValue("Address", employee.Address);
+                var sqlCommand = new SqlCommand(cmdText: "EXEC InsertEmployee @NAME,@DEPARTMENT,@AGE,@ADDRESS", _sqlConnection);
+                sqlCommand.Parameters.AddWithValue("NAME", employee.Name);
+                sqlCommand.Parameters.AddWithValue("DEPARTMENT", employee.Department);
+                sqlCommand.Parameters.AddWithValue("AGE", employee.Age);
+                sqlCommand.Parameters.AddWithValue("ADDRESS", employee.Address);
 
                 sqlCommand.ExecuteNonQuery();
                 return true;
@@ -111,12 +111,12 @@ namespace EmployeeManagement.DataAccess.Repository
             {
                 _sqlConnection.Open();
 
-                var sqlCommand = new SqlCommand(cmdText: "exec UpdateEmployee Id = @Id,Name = @Name, Department=@Department,Age = @Age,Address = @Address", _sqlConnection);
-                sqlCommand.Parameters.AddWithValue("Id", employee.Id);
-                sqlCommand.Parameters.AddWithValue("Name", employee.Name);
-                sqlCommand.Parameters.AddWithValue("Department", employee.Department);
-                sqlCommand.Parameters.AddWithValue("Age", employee.Age);
-                sqlCommand.Parameters.AddWithValue("Address", employee.Address);
+                var sqlCommand = new SqlCommand(cmdText: "exec UpdateEmployee  @ID, @NAME, @DEPARTMENT, @AGE, @ADDRESS", _sqlConnection);
+                sqlCommand.Parameters.AddWithValue("ID", employee.Id);
+                sqlCommand.Parameters.AddWithValue("NAME", employee.Name);
+                sqlCommand.Parameters.AddWithValue("DEPARTMENT", employee.Department);
+                sqlCommand.Parameters.AddWithValue("AGE", employee.Age);
+                sqlCommand.Parameters.AddWithValue("ADDRESS", employee.Address);
 
                 sqlCommand.ExecuteNonQuery();
                 return true;

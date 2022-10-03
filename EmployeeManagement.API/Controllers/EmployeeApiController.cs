@@ -45,7 +45,7 @@ namespace EmployeeManagement.API.Controllers
                 Age = employeeById.Age,
                 Address = employeeById.Address
             };
-            return employeeById;
+            return employee;
         }
 
         [HttpGet]
@@ -89,7 +89,7 @@ namespace EmployeeManagement.API.Controllers
             {
                 var employeeDetailed = new EmployeeDto()
                 {
-                    Id = newEmployee.Id,
+                    //Id = newEmployee.Id,
                     Name = newEmployee.Name,
                     Department = newEmployee.Department,
                     Age = newEmployee.Age,
@@ -109,7 +109,7 @@ namespace EmployeeManagement.API.Controllers
         {
             try
             {
-                var employeeDetailed = new EmployeeDto()
+                var employeeDto = new EmployeeDto()
                 {
                     Id = newEmployee.Id,
                     Name = newEmployee.Name,
@@ -117,7 +117,8 @@ namespace EmployeeManagement.API.Controllers
                     Age = newEmployee.Age,
                     Address = newEmployee.Address
                 };
-                var employeeDetailedViewModel = _employeeService.UpdateEmployee(employeeDetailed);
+
+                var employeeDetailedViewModel = _employeeService.UpdateEmployee(employeeDto);
                 return Ok(employeeDetailedViewModel);
             }
             catch (Exception ex)

@@ -21,25 +21,13 @@ namespace EmployeeManagement.UI.Controllers
         public IActionResult Index()
         {
             try
-            {
-                var employees = _employeeApiClient.GetAllEmployee();
-
-                //Dummy Data Need to Replace with employees object
-                var employeeViewModels = new List<EmployeeViewModel>()
-                {
-                    new EmployeeViewModel
-                    {
-                        Id = 1,
-                        Name = "Dummy Name",
-                        Department = "Dummy Department"
-                    }
-                };
-                return View(employeeViewModels);
+            { 
+                var employees = _employeeApiClient.GetAllEmployee();    
+                return View(employees);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
     }

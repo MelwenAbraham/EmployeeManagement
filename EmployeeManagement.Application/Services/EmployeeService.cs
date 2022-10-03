@@ -79,7 +79,7 @@ namespace EmployeeManagement.Application.Services
             {
                 var employeeData = new EmployeeData()
                 {
-                    Id = employee.Id,
+                    //Id = employee.Id,
                     Name = employee.Name,
                     Department = employee.Department,
                     Age = employee.Age,
