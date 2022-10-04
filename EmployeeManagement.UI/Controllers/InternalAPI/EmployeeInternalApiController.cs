@@ -48,14 +48,28 @@ namespace EmployeeManagement.UI.Controllers.InternalAPI
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        [HttpPut]
-        [Route("insertemployees}")]
-        public IActionResult InsertEmployee([FromBody]EmployeeDetailedViewModel employee)
+        [HttpPost]
+        [Route("insertemployees")]
+        public IActionResult InsertEmployee([FromBody] EmployeeDetailedViewModel employee)
         {
             try
             {
                 var insertedEmployee = _employeeApiClient.InsertEmployee(employee);
                 return Ok(insertedEmployee);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        [HttpPut]
+        [Route("updateemployees")]
+        public IActionResult UpdateEmployee(EmployeeDetailedViewModel employee)
+        {
+            try
+            {
+                var updatedEmployee = _employeeApiClient.UpdateEmployee(employee);
+                return Ok(updatedEmployee);
             }
             catch (Exception ex)
             {

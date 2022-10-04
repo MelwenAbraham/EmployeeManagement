@@ -1,7 +1,89 @@
 ﻿@model IEnumerable<EmployeeViewModel>
 
 <h3 class="display-4">Employees</h3>
-<button class="btn btn-success"> Create New Employee</button>
+<button class="btn btn-success" data-toggle="modal" data-target="#myModal"> Create New Employee</button>
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+ @*Modal content*@
+<div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Employee Details</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createform">
+                    <label>NAME:</label><br>
+                    <input type="text" style="width:100%" id="name" name="name" placeholder="Enter a Name"><br>
+                    <label>DEPARTMENT:</label><br>
+                    <input type="text" style="width:100%" id="department" name="department" placeholder="Enter the Department"><br>
+                    <label>AGE:</label><br>
+                    <input type="number" style="width:100%" id="age" name="age" placeholder="Enter the Age"><br>
+                    <label>ADDRESS:</label><br>
+                    <input type="text" style="width:100%" id="address" name="address" placeholder="Enter the Address"><br><br><br>
+                    <input type="submit" value="create">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModalw" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Employee Details</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="updateform">
+                    <label>Id:</label><br>
+                    <input type="number" style="width:100%" id="empId" name="id"><br>
+                    <label>Name:</label><br>
+                    <input type="text" style="width:100%" id="empName" name="name"><br>
+                    <label>Department:</label><br>
+                    <input type="text" style="width:100%" id="empDept" name="department"><br>
+                    <label>Age:</label><br>
+                    <input type="number" style="width:100%" id="empAge" name="age"><br>
+                    <label>Address:</label><br>
+                    <input type="text" style="width:100%" id="empAddress" name="address"><br><br><br>
+                    <input type="submit" value="update">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="modal fade" id="updateForm" role="dialog">
+    <div class="modal-dialog">
+       
+<div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Employee Details</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createUpdateForm">
+                    <label>ID:</label><br>
+                    <input type="number" style="width:100%" id="employeeId" name="Id"><br>
+                    <label>NAME:</label><br>
+                    <input type="text" style="width:100%" id="employeeName" name="Name"><br>
+                    <label>DEPARTMENT:</label><br>
+                    <input type="text" style="width:100%" id="employeeDepartment" name="Department"><br>
+                    <label>AGE:</label><br>
+                    <input type="number" style="width:100%" id="employeeAge" name="Age"><br>
+                    <label>ADDRESS:</label><br>
+                    <input type="text" style="width:100%" id="employeeAddress" name="Address"><br><br><br>
+                    <input type="submit" value="update">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -15,28 +97,25 @@
                 <b>Department</b>
             </td>
             <td>
-            </td> 
+            </td>
         </tr>
 
     </thead>
     @foreach (var employee in Model)
     {
-        <tr>
-            <td>@employee.Id</td>
-            <td>@employee.Name</td>
-            <td>@employee.Department</td>
-            <td>
-                <button class="btn btn-primary employeeDetails" data-id="@employee.Id"> Details</button>
-                <button class="btn btn-info employeeEdit" data-id="@employee.Id"> Edit</button>
-                <button class="btn btn-danger employeeDelete" data-id="@employee.Id"> Delete</button>
-            </td>
-        </tr>
-    }
+<tr>
+    <td>@employee.Id</td>
+    <td>@employee.Name</td>
+    <td>@employee.Department</td>
+    <td>
+        <button class="btn btn-primary employeeDetails" data-id="@employee.Id"> Details</button>
+        <button class="btn btn-info employeeEdit" data-toggle="modal" data-target="#myModalw" data-id="@employee.Id"> Edit</button>
+        <button class="btn btn-danger employeeDelete" data-id="@employee.Id"> Delete</button>
+    </td>
+</tr>}
 </table>
 
-<div id="EmployeeCard">
-    
-</div>
+<div id="EmployeeCard"> </div>
 
 @section Scripts{
     <script src="~/js/employee.js"></script>

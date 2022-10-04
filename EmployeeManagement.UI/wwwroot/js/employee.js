@@ -53,6 +53,86 @@ function bindEvents() {
         }
     });
 
+    $("#createform").submit(function (event) {
+
+        var employeeDetailedViewModel = {};
+
+        employeeDetailedViewModel.Name = $("#name").val();
+        employeeDetailedViewModel.Department = $("#department").val();
+        employeeDetailedViewModel.Age = Number($("#age").val());
+        employeeDetailedViewModel.Address = $("#address").val();
+
+        var data = JSON.stringify(employeeDetailedViewModel);
+
+        $.ajax({
+            url: 'https://localhost:6001/api/internal/employee/insertemployees',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            data: data,
+            success: function (result) {
+                location.reload();
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+    
+
+    $("#updateform").submit(function (event) {
+
+        var employeeDetailedViewModel = {};
+
+        employeeDetailedViewModel.Id = Number($("#empId").val());
+        employeeDetailedViewModel.Name = $("#empName").val();
+        employeeDetailedViewModel.Department = $("#empDept").val();
+        employeeDetailedViewModel.Age = Number($("#empAge").val());
+        employeeDetailedViewModel.Address = $("#empAddress").val();
+
+        var data = JSON.stringify(employeeDetailedViewModel);
+
+        $.ajax({
+            url: 'https://localhost:6001/api/internal/employee/updateemployees',
+            type: 'PUT',
+            dataType: 'json', contentType: "application/json; charset=utf-8",
+            data: data, success: function (result) {
+                location.reload(true);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+
+    /*$("#updateForm").submit(function (event) {
+
+        var employeeDetailedViewModel = {};
+
+        employeeDetailedViewModel.Id = Number$("#employeeId").val();
+        employeeDetailedViewModel.Name = $("#employeeName").val();
+        employeeDetailedViewModel.Department = $("#employeeDepartment").val();
+        employeeDetailedViewModel.Age = Number($("#employeeAge").val());
+        employeeDetailedViewModel.Address = $("#employeeAddress").val();
+
+        var data = JSON.stringify(employeeDetailedViewModel);
+
+        $.ajax({
+            url: 'https://localhost:6001/api/internal/employee/updateemployees',
+            type: 'PUT',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            data: data,
+            success: function (result) {
+                location.reload();
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });*/
+
 }
     function hideEmployeeDetailCard() {
         $("#EmployeeCard").hide();
