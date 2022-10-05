@@ -71,6 +71,7 @@ function bindEvents() {
             contentType: "application/json; charset=utf-8",
             data: data,
             success: function (result) {
+
                 location.reload();
             },
             error: function (error) {
@@ -78,68 +79,67 @@ function bindEvents() {
             }
         });
     });
-    
 
-    $("#updateform").submit(function (event) {
-
-        var employeeDetailedViewModel = {};
-
-        employeeDetailedViewModel.Id = Number($("#empId").val());
-        employeeDetailedViewModel.Name = $("#empName").val();
-        employeeDetailedViewModel.Department = $("#empDept").val();
-        employeeDetailedViewModel.Age = Number($("#empAge").val());
-        employeeDetailedViewModel.Address = $("#empAddress").val();
-
-        var data = JSON.stringify(employeeDetailedViewModel);
+    $(".employeeEdit").on("click", function (event) {
+        console.log("clicked");
+        var employeeId = event.currentTarget.getAttribute("data-id");
 
         $.ajax({
-            url: 'https://localhost:6001/api/internal/employee/updateemployees',
-            type: 'PUT',
-            dataType: 'json', contentType: "application/json; charset=utf-8",
-            data: data, success: function (result) {
-                location.reload(true);
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    });
-
-
-    /*$("#updateForm").submit(function (event) {
-
-        var employeeDetailedViewModel = {};
-
-        employeeDetailedViewModel.Id = Number$("#employeeId").val();
-        employeeDetailedViewModel.Name = $("#employeeName").val();
-        employeeDetailedViewModel.Department = $("#employeeDepartment").val();
-        employeeDetailedViewModel.Age = Number($("#employeeAge").val());
-        employeeDetailedViewModel.Address = $("#employeeAddress").val();
-
-        var data = JSON.stringify(employeeDetailedViewModel);
-
-        $.ajax({
-            url: 'https://localhost:6001/api/internal/employee/updateemployees',
-            type: 'PUT',
-            dataType: 'json',
+            url: 'https://localhost:6001/api/internal/employee/' + employeeId,
+            type: 'GET',
             contentType: "application/json; charset=utf-8",
-            data: data,
             success: function (result) {
-                location.reload();
+                $("#employeeId").val(result.id)
+                $("#employeeName").val(result.name)
+                $("#employeeDept").val(result.department)
+                $("#employeeAge").val(result.age)
+                $("#employeeAddress").val(result.address)
             },
             error: function (error) {
                 console.log(error);
             }
         });
-    });*/
+        $("#updateform").submit(function (event) {
+            console.log("clicked");
+            var idUpdate = $("#employeeId").val();
+            var nameUpdate = $("#employeeName").val();
+            var departmentUpdate = $("#employeeDept").val();
+            var ageUpdate = $("#employeeAge").val();
+            var addressUpdate = $("#employeeAddress").val();
 
+            let employees = {
+                id: parseInt(idUpdate),
+                name: nameUpdate,
+                department: departmentUpdate,
+                age: parseInt(ageUpdate),
+                address: addressUpdate
+            };
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: 'https://localhost:6001/api/internal/employee/updateemployees',
+                type: 'PUT',
+                data: JSON.stringify(employees),
+                dataType: 'json',
+                success: function (result) {
+
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
 }
-    function hideEmployeeDetailCard() {
-        $("#EmployeeCard").hide();
-    }
+function hideEmployeeDetailCard() {
+    $("#EmployeeCard").hide();
+}
 
-    function showEmployeeDetailCard() {
-        $("#EmployeeCard").show();
-    }
+function showEmployeeDetailCard() {
+    $("#EmployeeCard").show();
+}
 
 
