@@ -17,7 +17,7 @@ namespace EmployeeManagement.UI.Controllers.InternalAPI
 
         public EmployeeInternalApiController(IEmployeeApiClient employeeApiClient)
         {
-            _employeeApiClient = employeeApiClient;
+            this._employeeApiClient = employeeApiClient;
         }
 
         [HttpGet]
@@ -34,6 +34,7 @@ namespace EmployeeManagement.UI.Controllers.InternalAPI
                 throw ex;
             }
         }
+
         [HttpDelete]
         [Route("deleteemployees/{employeeId}")]
         public IActionResult DeleteEmployee([FromRoute]int employeeId)
@@ -48,6 +49,7 @@ namespace EmployeeManagement.UI.Controllers.InternalAPI
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
         [HttpPost]
         [Route("insertemployees")]
         public IActionResult InsertEmployee([FromBody] EmployeeDetailedViewModel employee)
@@ -62,6 +64,7 @@ namespace EmployeeManagement.UI.Controllers.InternalAPI
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
         [HttpPut]
         [Route("updateemployees")]
         public IActionResult UpdateEmployee(EmployeeDetailedViewModel employee)

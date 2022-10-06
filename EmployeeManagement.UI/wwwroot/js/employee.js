@@ -72,7 +72,7 @@ function bindEvents() {
             data: data,
             success: function (result) {
 
-                location.reload();
+                /*location.reload();*/
             },
             error: function (error) {
                 console.log(error);

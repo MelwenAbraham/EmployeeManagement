@@ -90,28 +90,7 @@ namespace EmployeeManagement.Application.Services
             };
             return employee;
         }
-
-        /*public bool InsertEmployee(EmployeeDto employee)
-        {
-            try
-            {
-                var employeeData = new EmployeeData()
-                {
-                    //Id = employee.Id,
-                    Name = employee.Name,
-                    Department = employee.Department,
-                    Age = employee.Age,
-                    Address = employee.Address
-                };
-                _employeeRepository.InsertEmployee(employeeData);
-                return true;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }*/
-
+           
         public bool UpdateEmployee(EmployeeDto employees)
         {
             var updateEmployee = _employeeRepository.UpdateDetails(MappingUpdateEmployee(employees));
@@ -130,20 +109,6 @@ namespace EmployeeManagement.Application.Services
             };
             return employee;
         }
-
-      /*  public bool UpdateEmployee(EmployeeDto employee)
-        {
-            var employeeData = new EmployeeData()
-            {
-                Id = employee.Id,
-                Name = employee.Name,
-                Department = employee.Department,
-                Age = employee.Age,
-                Address = employee.Address
-            };
-            _employeeRepository.UpdateDetails(employeeData);
-            return true;
-        }*/
 
         public bool DeleteEmployee(int ID)
         {
