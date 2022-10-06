@@ -73,7 +73,25 @@ namespace EmployeeManagement.Application.Services
            };
         }
 
-        public bool InsertEmployee(EmployeeDto employee)
+        public bool InsertEmployee(EmployeeDto employees)
+        {
+            var insertEmployee = _employeeRepository.InsertEmployee(MappingInsertEmployee(employees));
+            return (insertEmployee);
+        }
+
+        private EmployeeData MappingInsertEmployee(EmployeeDto insertEmployee)
+        {
+            var employee = new EmployeeData()
+            {
+                Name = insertEmployee.Name,
+                Department = insertEmployee.Department,
+                Age = insertEmployee.Age,
+                Address = insertEmployee.Address
+            };
+            return employee;
+        }
+
+        /*public bool InsertEmployee(EmployeeDto employee)
         {
             try
             {
@@ -92,9 +110,28 @@ namespace EmployeeManagement.Application.Services
             {
                 throw;
             }
+        }*/
+
+        public bool UpdateEmployee(EmployeeDto employees)
+        {
+            var updateEmployee = _employeeRepository.UpdateDetails(MappingUpdateEmployee(employees));
+            return (updateEmployee);
         }
-        
-        public bool UpdateEmployee(EmployeeDto employee)
+
+        private EmployeeData MappingUpdateEmployee(EmployeeDto updateEmployee)
+        {
+            var employee = new EmployeeData()
+            {
+                Id = updateEmployee.Id,
+                Name = updateEmployee.Name,
+                Department = updateEmployee.Department,
+                Age = updateEmployee.Age,
+                Address = updateEmployee.Address
+            };
+            return employee;
+        }
+
+      /*  public bool UpdateEmployee(EmployeeDto employee)
         {
             var employeeData = new EmployeeData()
             {
@@ -106,7 +143,7 @@ namespace EmployeeManagement.Application.Services
             };
             _employeeRepository.UpdateDetails(employeeData);
             return true;
-        }
+        }*/
 
         public bool DeleteEmployee(int ID)
         {

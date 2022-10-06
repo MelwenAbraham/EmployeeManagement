@@ -35,17 +35,24 @@ namespace EmployeeManagement.API.Controllers
             }
         }
 
-        private object MapToemployeeById(Application.Models.EmployeeDto employeeById)
+        private EmployeeDetailedViewModel MapToemployeeById(EmployeeDto employees)
         {
-            var employee = new EmployeeDetailedViewModel()
+            try
             {
-                Id = employeeById.Id,
-                Name = employeeById.Name,
-                Department = employeeById.Department,
-                Age = employeeById.Age,
-                Address = employeeById.Address
-            };
-            return employee;
+                var employee = new EmployeeDetailedViewModel
+                {
+                    Id = employees.Id,
+                    Name = employees.Name,
+                    Department = employees.Department,
+                    Age = employees.Age,
+                    Address = employees.Address
+                };
+                return employee;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         [HttpGet]
@@ -63,12 +70,12 @@ namespace EmployeeManagement.API.Controllers
             }
         }
 
-        private object MapToAllEmployee(IEnumerable<Application.Models.EmployeeDto> listOfEmployeeViewModel)
+        private IEnumerable<EmployeeDetailedViewModel> MapToAllEmployee(IEnumerable<EmployeeDto> listOfEmployees)
         {
             var listOfAllEmployee = new List<EmployeeDetailedViewModel>();
-            foreach (var item in listOfEmployeeViewModel)
+            foreach (var item in listOfEmployees)
             {
-                var employeeViewModel = new EmployeeDetailedViewModel()
+                var employeeViewModel = new EmployeeDetailedViewModel
                 {
                     Id = item.Id,
                     Name = item.Name,
@@ -87,15 +94,8 @@ namespace EmployeeManagement.API.Controllers
         {
             try
             {
-                var employeeDetailed = new EmployeeDto()
-                {
-                    Name = newEmployee.Name,
-                    Department = newEmployee.Department,
-                    Age = newEmployee.Age,
-                    Address = newEmployee.Address
-                };
-                var employeeDetailedViewModel = _employeeService.InsertEmployee(employeeDetailed);
-                return Ok(employeeDetailedViewModel);
+                var insertedEmployee = _employeeService.InsertEmployee(MaptoInsertEmployee(newEmployee));
+                return Ok(insertedEmployee);
             }
             catch (Exception ex)
             {
@@ -103,28 +103,46 @@ namespace EmployeeManagement.API.Controllers
             }
         }
 
+        private EmployeeDto MaptoInsertEmployee(EmployeeDetailedViewModel insertEmployee)
+        {
+            var employeeInsertion = new EmployeeDto()
+            {
+                Name = insertEmployee.Name,
+                Age = insertEmployee.Age,
+                Department = insertEmployee.Department,
+                Address = insertEmployee.Address
+            };
+            return employeeInsertion;
+        }
+
         [HttpPut]
         [Route("updateemployees")]
-        public IActionResult UpdateEmployee([FromBody] EmployeeDetailedViewModel newEmployee)
+        public IActionResult UpdateEmployee([FromBody] EmployeeDetailedViewModel updateEmployee)
         {
             try
             {
-                var employeeDto = new EmployeeDto()
-                {
-                    Id = newEmployee.Id,
-                    Name = newEmployee.Name,
-                    Department = newEmployee.Department,
-                    Age = newEmployee.Age,
-                    Address = newEmployee.Address
-                };
-                var employeeDetailedViewModel = _employeeService.UpdateEmployee(employeeDto);
-                return Ok(employeeDetailedViewModel);
+                var updatedEmployee = _employeeService.UpdateEmployee(MapToUpdateEmployee(updateEmployee));
+                return Ok(updatedEmployee);
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        private EmployeeDto MapToUpdateEmployee(EmployeeDetailedViewModel updateEmployee)
+        {
+            var employeeUpdation = new EmployeeDto();
+            {
+                employeeUpdation.Id = updateEmployee.Id;
+                employeeUpdation.Name = updateEmployee.Name;
+                employeeUpdation.Department = updateEmployee.Department;
+                employeeUpdation.Age = updateEmployee.Age;
+                employeeUpdation.Address = updateEmployee.Address;
+            };
+            return employeeUpdation;
+        }
+
         [HttpDelete]
         [Route("deleteEmployee/{ID}")]
         public IActionResult DeleteEmployee(int ID)
